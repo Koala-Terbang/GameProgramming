@@ -29,8 +29,11 @@ public class Spawner : MonoBehaviour
     {
         if (player != null && enemyPrefab != null)
         {
-            Vector2 spawnDirection = Random.insideUnitCircle.normalized;
-            Vector2 spawnPosition = (Vector2)player.position + spawnDirection * spawnRadius;
+            bool spawnLeft = Random.value < 0.5f;
+
+            float xOffset = spawnLeft ? -spawnRadius : spawnRadius;
+
+            Vector2 spawnPosition = new Vector2(player.position.x + xOffset, player.position.y);
 
             Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
         }

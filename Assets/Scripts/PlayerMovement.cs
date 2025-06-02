@@ -4,43 +4,39 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float moveSpeed = 5f;   
-    public float jumpForce = 7f;   
-
+    public float forwardSpeed = 10f;
+    public float jetpackForce = 10f;
     private Rigidbody2D rb;
-    private bool isGrounded = false;
+    private Animator anim;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        rb.freezeRotation = true;
+        anim = GetComponent<Animator>();
     }
 
     void Update()
     {
-        float moveInput = Input.GetAxis("Horizontal");
+        transform.Translate(Vector2.right * forwardSpeed * Time.deltaTime);
 
-        rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
-
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        bool isFlying = Input.GetButton("Jump");
+        if (isFlying)
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            rb.AddForce(Vector2.up * jetpackForce);
         }
+        else
+        {
+            rb.AddForce(Vector2.down);
+    }
+
+    anim.enabled = !isFlying;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Obstacle"))
         {
-            isGrounded = true;
-        }
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            isGrounded = false;
+            Debug.Log("Crashed!");
         }
     }
 }

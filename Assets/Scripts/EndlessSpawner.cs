@@ -1,0 +1,60 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class EndlessSpawner : MonoBehaviour
+{
+    public GameObject groundPrefab;
+    public GameObject roofPrefab;
+    public GameObject obstaclePrefab;
+    public GameObject meteorPrefab;
+    public GameObject backgroundPrefab;
+    public Transform player;
+    public float spawnDistance = 15f;
+    private float lastSpawnX = 0f;
+    private float tileLength = 15f;
+
+    void Start()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            SpawnTile(i * tileLength);
+        }
+    }
+
+    void Update()
+    {
+        if (player.position.x + spawnDistance > lastSpawnX)
+        {
+            SpawnTile(lastSpawnX);
+        }
+    }
+
+    void SpawnTile(float xPos)
+    {
+        // Ground
+        Instantiate(groundPrefab, new Vector2(xPos, -3f), Quaternion.identity);
+
+        // Roof
+        Instantiate(roofPrefab, new Vector2(xPos, 5f), Quaternion.identity); // adjust Y for roof height
+
+        // Background
+        Instantiate(backgroundPrefab, new Vector2(xPos, 0f), Quaternion.identity);
+
+        // Random obstacle (cactus)
+        if (Random.value > 0.5f)
+        {
+            GameObject cactus = Instantiate(obstaclePrefab, new Vector2(xPos + Random.Range(2f, 8f), -2f), Quaternion.identity);
+            float randomHeight = Random.Range(0.5f, 2f);
+            cactus.transform.localScale = new Vector3(1f, randomHeight, 1f);
+        }
+
+        if (Random.value > 0.3f)
+        {
+            GameObject meteor = Instantiate(meteorPrefab, new Vector2(xPos + Random.Range(2f, 8f), 4f), Quaternion.identity);
+            meteor.AddComponent<MeteorPhysics>(); // Let meteor move downward
+        }
+
+        lastSpawnX += tileLength;
+    }
+}

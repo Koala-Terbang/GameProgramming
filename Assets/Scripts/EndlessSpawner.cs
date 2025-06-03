@@ -51,8 +51,9 @@ public class EndlessSpawner : MonoBehaviour
 
         if (Random.value > 0.3f)
         {
-            GameObject meteor = Instantiate(meteorPrefab, new Vector2(xPos + Random.Range(2f, 8f), 4f), Quaternion.identity);
-            meteor.AddComponent<MeteorPhysics>(); // Let meteor move downward
+            float randomY = Random.Range(1f, 4.5f); // Random vertical height for meteor
+            GameObject meteor = Instantiate(meteorPrefab, new Vector2(xPos + Random.Range(2f, 8f), randomY), Quaternion.identity);
+            meteor.AddComponent<MeteorPhysics>(); // Let meteor move leftward
         }
 
         lastSpawnX += tileLength;

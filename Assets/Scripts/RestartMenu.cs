@@ -19,15 +19,12 @@ public class RestartMenu : MonoBehaviour
 
     public void ShowGameOverUI()
     {
-        // Pause the game
         Time.timeScale = 0f;
 
         scoreBoard.gameObject.SetActive(false);
 
-        // Show Game Over panel
         gameOverPanel.SetActive(true);
 
-        // Update scores in UI
         float bestScore = PlayerPrefs.GetFloat("BestScore", 0f);
         float currentScore = scoreManager.GetScore();
 
@@ -36,10 +33,8 @@ public class RestartMenu : MonoBehaviour
 
     public void RestartGame()
     {
-        // Resume time
         Time.timeScale = 1f;
 
-        // Reload the scene
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

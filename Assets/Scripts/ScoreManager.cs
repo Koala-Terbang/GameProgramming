@@ -5,24 +5,21 @@ using UnityEngine.UI;
 
 public class ScoreManager : MonoBehaviour
 {
-    public Text bestScoreText;  // Text for best and current run score
+    public Text bestScoreText;
 
     private float score = 0f;
     private float bestScore = 0f;
 
     void Start()
     {
-        // Load the best score from PlayerPrefs
         bestScore = PlayerPrefs.GetFloat("BestScore", 0f);
         UpdateScoreUI();
     }
 
     void Update()
     {
-        // Increase score based on time
         score += Time.deltaTime;
 
-        // Update best score if needed
         if (score > bestScore)
         {
             bestScore = score;

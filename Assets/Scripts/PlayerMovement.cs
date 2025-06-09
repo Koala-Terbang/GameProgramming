@@ -22,12 +22,10 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (isDead) return; // Don’t do anything if dead
+        if (isDead) return;
 
-        // Move forward
         transform.Translate(Vector2.right * forwardSpeed * Time.deltaTime);
 
-        // Flying
         bool isFlying = Input.GetButton("Jump");
         if (isFlying)
         {
@@ -38,7 +36,6 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(Vector2.down);
         }
 
-        // Toggle running animation
         anim.enabled = !isFlying;
     }
 
@@ -52,12 +49,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void Die()
     {
-        // Disable movement
         isDead = true;
         rb.velocity = Vector2.zero;
-        rb.isKinematic = true; // Freeze physics if needed
-        
-        // Show game over UI
+        rb.isKinematic = true;
+
         restartMenu.ShowGameOverUI();
     }
 }

@@ -8,16 +8,13 @@ public class MenuManager : MonoBehaviour
 
     void Start()
     {
-        // Pause the game at the start
         Time.timeScale = 0f;
     }
 
     public void StartGame()
     {
-        // Hide the menu
         mainMenuPanel.SetActive(false);
 
-        // Resume the game
         Time.timeScale = 1f;
     }
 

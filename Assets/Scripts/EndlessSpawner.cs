@@ -36,7 +36,7 @@ public class EndlessSpawner : MonoBehaviour
         Instantiate(groundPrefab, new Vector2(xPos, -3f), Quaternion.identity);
 
         // Roof
-        Instantiate(roofPrefab, new Vector2(xPos, 5f), Quaternion.identity); // adjust Y for roof height
+        Instantiate(roofPrefab, new Vector2(xPos, 5f), Quaternion.identity);
 
         // Background
         Instantiate(backgroundPrefab, new Vector2(xPos, 0f), Quaternion.identity);
@@ -51,9 +51,9 @@ public class EndlessSpawner : MonoBehaviour
 
         if (Random.value > 0.3f)
         {
-            float randomY = Random.Range(1f, 4.5f); // Random vertical height for meteor
+            float randomY = Random.Range(1f, 4.5f);
             GameObject meteor = Instantiate(meteorPrefab, new Vector2(xPos + Random.Range(2f, 8f), randomY), Quaternion.identity);
-            meteor.AddComponent<MeteorPhysics>(); // Let meteor move leftward
+            meteor.AddComponent<MeteorPhysics>();
         }
 
         lastSpawnX += tileLength;

@@ -1,16 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
     public float forwardSpeed = 10f;
-    public float jetpackForce = 10f;
+    public float jetpackForce = 5f;
     private Rigidbody2D rb;
     private Animator anim;
     private RestartMenu restartMenu;
     private bool isDead = false;
     private AudioSource jetpackAudio;
+    private float maxFuel = 100f;
+    private float fuelRechargeRate = 10f;
+    private float fuelConsumptionRate = 45f;
+    private float currentFuel;
+    public Slider fuelBar;
 
     void Start()
     {
@@ -18,6 +24,9 @@ public class PlayerMovement : MonoBehaviour
         anim = GetComponent<Animator>();
         restartMenu = FindObjectOfType<RestartMenu>();
         jetpackAudio = GetComponent<AudioSource>();
+        currentFuel = maxFuel;
+        fuelBar.maxValue = maxFuel;
+        fuelBar.value = currentFuel;
     }
 
     void Update()
@@ -26,10 +35,13 @@ public class PlayerMovement : MonoBehaviour
 
         transform.Translate(Vector2.right * forwardSpeed * Time.deltaTime);
 
-        bool isFlying = Input.GetButton("Jump");
+        bool isFlying = Input.GetButton("Jump") && currentFuel > 25f;
         if (isFlying)
         {
             rb.AddForce(Vector2.up * jetpackForce);
+
+            currentFuel -= fuelConsumptionRate * Time.deltaTime;
+            currentFuel = Mathf.Clamp(currentFuel, 0f, maxFuel);
 
             if (!jetpackAudio.isPlaying)
             {
@@ -40,6 +52,9 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.AddForce(Vector2.down);
 
+            currentFuel += fuelRechargeRate * Time.deltaTime;
+            currentFuel = Mathf.Clamp(currentFuel, 0f, maxFuel);
+
             if (jetpackAudio.isPlaying)
             {
                 jetpackAudio.Stop();
@@ -47,6 +62,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         anim.enabled = !isFlying;
+        fuelBar.value = currentFuel;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

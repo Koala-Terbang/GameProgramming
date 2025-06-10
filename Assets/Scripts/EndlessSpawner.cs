@@ -10,11 +10,11 @@ public class EndlessSpawner : MonoBehaviour
     public GameObject meteorPrefab;
     public GameObject backgroundPrefab;
     public Transform player;
-    public float spawnDistance = 15f;
+    public float spawnDistance = 10f;
     private float lastSpawnX = 0f;
     private float tileLength = 15f;
-    public float cactusSpawn = 0.5f;
-    public float meteorSpawn = 0.5f;
+    private float cactusSpawn = 0.05f;
+    private float meteorSpawn = 0.2f;
 
     void Start()
     {
@@ -47,7 +47,7 @@ public class EndlessSpawner : MonoBehaviour
 
         if (Random.value > meteorSpawn)
         {
-            float randomY = Random.Range(1f, 4f);
+            float randomY = Random.Range(1f, 3.5f);
             GameObject meteor = Instantiate(meteorPrefab, new Vector2(xPos + Random.Range(2f, 8f), randomY), Quaternion.identity);
             meteor.transform.localScale = new Vector3(2f, 2f, 2f);
             meteor.AddComponent<MeteorPhysics>();

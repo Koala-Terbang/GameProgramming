@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PlayerMovement : MonoBehaviour
 {
     public float forwardSpeed = 10f;
-    public float jetpackForce = 5f;
+    public float jetpackForce = 3f;
     private Rigidbody2D rb;
     private Animator anim;
     private RestartMenu restartMenu;
@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviour
     private float fuelConsumptionRate = 45f;
     private float currentFuel;
     public Slider fuelBar;
+    private bool isFlying = false;
 
     void Start()
     {
@@ -35,11 +36,10 @@ public class PlayerMovement : MonoBehaviour
 
         transform.Translate(Vector2.right * forwardSpeed * Time.deltaTime);
 
-        bool isFlying = Input.GetButton("Jump") && currentFuel > 25f;
+        isFlying = Input.GetButton("Jump") && currentFuel > 15f;
+
         if (isFlying)
         {
-            rb.AddForce(Vector2.up * jetpackForce);
-
             currentFuel -= fuelConsumptionRate * Time.deltaTime;
             currentFuel = Mathf.Clamp(currentFuel, 0f, maxFuel);
 
@@ -50,8 +50,6 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            rb.AddForce(Vector2.down);
-
             currentFuel += fuelRechargeRate * Time.deltaTime;
             currentFuel = Mathf.Clamp(currentFuel, 0f, maxFuel);
 
@@ -65,6 +63,19 @@ public class PlayerMovement : MonoBehaviour
         fuelBar.value = currentFuel;
     }
 
+    void FixedUpdate()
+    {
+        if (isDead) return;
+
+        if (isFlying)
+        {
+            rb.AddForce(Vector2.up * jetpackForce, ForceMode2D.Force);
+        }
+        else
+        {
+            rb.AddForce(Vector2.down, ForceMode2D.Force);
+        }
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Obstacle"))

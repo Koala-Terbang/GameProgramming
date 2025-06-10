@@ -857,7 +857,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   forwardSpeed: 8.5
-  jetpackForce: 5
+  jetpackForce: 20
   fuelBar: {fileID: 294743402}
 --- !u!61 &298269544
 BoxCollider2D:
@@ -970,7 +970,7 @@ MonoBehaviour:
   meteorPrefab: {fileID: 6879894793873630723, guid: 54ab790458e5bfb4ca70d9a6070bf9d4, type: 3}
   backgroundPrefab: {fileID: 7476171438139808074, guid: c4f3c4b96f6673644afb8d9f16a81d69, type: 3}
   player: {fileID: 298269542}
-  spawnDistance: 7
+  spawnDistance: 10
 --- !u!82 &298269548
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1291,7 +1291,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 4.01
+  orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

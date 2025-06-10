@@ -13,7 +13,7 @@ public class MenuManager : MonoBehaviour
         if (isRestart)
         {
             mainMenuPanel.SetActive(false);
-            scoreBoard.gameObject.SetActive(true);
+            scoreBoard.SetActive(true);
             Time.timeScale = 1f;
             isRestart = false;
         }
@@ -27,6 +27,7 @@ public class MenuManager : MonoBehaviour
     public void StartGame()
     {
         mainMenuPanel.SetActive(false);
+        scoreBoard.SetActive(true);
         Time.timeScale = 1f;
     }
 

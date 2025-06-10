@@ -9,7 +9,7 @@ public class RestartMenu : MonoBehaviour
     public GameObject gameOverPanel;
     public Text gameOverText;
     private ScoreManager scoreManager;
-    public Text scoreBoard;
+    public GameObject ingameUI;
 
     void Start()
     {
@@ -21,7 +21,7 @@ public class RestartMenu : MonoBehaviour
     {
         Time.timeScale = 0f;
 
-        scoreBoard.gameObject.SetActive(false);
+        ingameUI.SetActive(false);
 
         gameOverPanel.SetActive(true);
 

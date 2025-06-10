@@ -6,13 +6,15 @@ public class EndlessSpawner : MonoBehaviour
 {
     public GameObject groundPrefab;
     public GameObject roofPrefab;
-    public GameObject obstaclePrefab;
+    public GameObject cactusPrefab;
     public GameObject meteorPrefab;
     public GameObject backgroundPrefab;
     public Transform player;
     public float spawnDistance = 15f;
     private float lastSpawnX = 0f;
     private float tileLength = 15f;
+    public float cactusSpawn = 0.5f;
+    public float meteorSpawn = 0.5f;
 
     void Start()
     {
@@ -32,27 +34,22 @@ public class EndlessSpawner : MonoBehaviour
 
     void SpawnTile(float xPos)
     {
-        // Ground
         Instantiate(groundPrefab, new Vector2(xPos, -3f), Quaternion.identity);
-
-        // Roof
         Instantiate(roofPrefab, new Vector2(xPos, 5f), Quaternion.identity);
-
-        // Background
         Instantiate(backgroundPrefab, new Vector2(xPos, 0f), Quaternion.identity);
 
-        // Random obstacle (cactus)
-        if (Random.value > 0.5f)
+        if (Random.value > cactusSpawn)
         {
-            GameObject cactus = Instantiate(obstaclePrefab, new Vector2(xPos + Random.Range(2f, 8f), -2f), Quaternion.identity);
+            GameObject cactus = Instantiate(cactusPrefab, new Vector2(xPos + Random.Range(2f, 8f), -2f), Quaternion.identity);
             float randomHeight = Random.Range(0.5f, 2f);
             cactus.transform.localScale = new Vector3(1f, randomHeight, 1f);
         }
 
-        if (Random.value > 0.3f)
+        if (Random.value > meteorSpawn)
         {
-            float randomY = Random.Range(1f, 4.5f);
+            float randomY = Random.Range(1f, 4f);
             GameObject meteor = Instantiate(meteorPrefab, new Vector2(xPos + Random.Range(2f, 8f), randomY), Quaternion.identity);
+            meteor.transform.localScale = new Vector3(2f, 2f, 2f);
             meteor.AddComponent<MeteorPhysics>();
         }
 

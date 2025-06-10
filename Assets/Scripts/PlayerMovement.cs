@@ -6,18 +6,18 @@ public class PlayerMovement : MonoBehaviour
 {
     public float forwardSpeed = 10f;
     public float jetpackForce = 10f;
-
     private Rigidbody2D rb;
     private Animator anim;
     private RestartMenu restartMenu;
-
     private bool isDead = false;
+    private AudioSource jetpackAudio;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         restartMenu = FindObjectOfType<RestartMenu>();
+        jetpackAudio = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -30,10 +30,20 @@ public class PlayerMovement : MonoBehaviour
         if (isFlying)
         {
             rb.AddForce(Vector2.up * jetpackForce);
+
+            if (!jetpackAudio.isPlaying)
+            {
+                jetpackAudio.Play();
+            }
         }
         else
         {
             rb.AddForce(Vector2.down);
+
+            if (jetpackAudio.isPlaying)
+            {
+                jetpackAudio.Stop();
+            }
         }
 
         anim.enabled = !isFlying;
@@ -52,7 +62,7 @@ public class PlayerMovement : MonoBehaviour
         isDead = true;
         rb.velocity = Vector2.zero;
         rb.isKinematic = true;
-
+        jetpackAudio.Stop();
         restartMenu.ShowGameOverUI();
     }
 }

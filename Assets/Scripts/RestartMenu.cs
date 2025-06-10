@@ -34,7 +34,7 @@ public class RestartMenu : MonoBehaviour
     public void RestartGame()
     {
         Time.timeScale = 1f;
-
+        MenuManager.isRestart = true;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
